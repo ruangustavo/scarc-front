@@ -15,7 +15,8 @@ interface Room {
 }
 
 export function useRooms() {
-  const { data: rooms, error, isLoading } = useSWR<Room[]>('/rooms')
+  const { data, error, isLoading } = useSWR<{ rooms: Room[] }>('/rooms')
+  const rooms = data?.rooms ?? []
   return {
     rooms,
     error,
