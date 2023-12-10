@@ -19,12 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body
-        className={`${inter.className} flex flex-col min-h-screen container`}
-      >
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Providers>
           <Header />
-          <div className="flex-1 grid md:grid-cols-[250px_1fr] md:gap-12">
+          <div className="container flex-1 grid md:grid-cols-[250px_1fr] md:gap-12">
             <div className="hidden md:block">
               <aside>
                 <SidebarNav />

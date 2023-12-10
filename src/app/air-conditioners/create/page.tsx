@@ -15,6 +15,17 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import React from 'react'
+import { useRooms } from '@/app/hooks/use-rooms'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { api } from '@/lib/api'
+import { Icons } from '@/components/icons'
 
 const formSchema = z.object({
   brand: z.string().min(2, {
@@ -23,24 +34,44 @@ const formSchema = z.object({
   model: z.string().min(2, {
     message: 'O modelo deve ter pelo menos 2 caracteres',
   }),
+  roomId: z.coerce.number().min(1, {
+    message: 'Selecione uma sala',
+  }),
 })
 
 export default function AddAirConditionerPage() {
+  const { rooms } = useRooms()
+  const [isSaving, setIsSaving] = React.useState<boolean>(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       brand: '',
       model: '',
+      roomId: 0,
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function handleAddAirConditionerSubmit(
+    values: z.infer<typeof formSchema>,
+  ) {
+    setIsSaving(true)
+
+    const { brand, model, roomId } = values
+    await api.post(`rooms/${roomId}/air-conditioners`, {
+      brand,
+      model,
+    })
+
+    setIsSaving(false)
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(handleAddAirConditionerSubmit)}
+        className="space-y-8"
+      >
         <FormField
           control={form.control}
           name="brand"
@@ -73,7 +104,40 @@ export default function AddAirConditionerPage() {
             </FormItem>
           )}
         />
-        <Button type="submit">Adicionar ar-condicionado</Button>
+        <FormField
+          control={form.control}
+          name="roomId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sala</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={String(field.value)}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione uma sala" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {rooms.map((room) => (
+                    <SelectItem key={room.id} value={String(room.id)}>
+                      {room.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                Clique para selecionar a sala onde o ar-condicionado está
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" disabled={isSaving}>
+          {isSaving && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+          Adicionar ar-condicionado
+        </Button>
       </form>
     </Form>
   )

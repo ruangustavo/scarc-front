@@ -1,14 +1,14 @@
 import useSWR from 'swr'
 
 interface AirConditioner {
-  id: string
+  id: number
   brand: string
   model: string
   is_active: boolean
 }
 
 interface Room {
-  id: string
+  id: number
   name: string
   description: string
   air_conditioners: AirConditioner[]
