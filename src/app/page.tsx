@@ -1,5 +1,4 @@
 import AirConditionerCard from '@/components/ar-conditioner-card'
-import { SidebarNav } from '@/components/sidebar-nav'
 
 const airConditioners = [
   {
@@ -36,19 +35,12 @@ const airConditioners = [
 
 export default function Home() {
   return (
-    <div className="flex-1 grid md:grid-cols-[250px_1fr] md:gap-12">
-      <div className="hidden md:block">
-        <aside>
-          <SidebarNav />
-        </aside>
+    <main>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {airConditioners.map((airConditioner) => (
+          <AirConditionerCard key={airConditioner.id} {...airConditioner} />
+        ))}
       </div>
-      <main>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {airConditioners.map((airConditioner) => (
-            <AirConditionerCard key={airConditioner.id} {...airConditioner} />
-          ))}
-        </div>
-      </main>
-    </div>
+    </main>
   )
 }
