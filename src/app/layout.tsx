@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/header'
 import { SidebarNav } from '@/components/sidebar-nav'
+import { Providers } from './providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,15 +22,17 @@ export default function RootLayout({
       <body
         className={`${inter.className} flex flex-col min-h-screen container`}
       >
-        <Header />
-        <div className="flex-1 grid md:grid-cols-[250px_1fr] md:gap-12">
-          <div className="hidden md:block">
-            <aside>
-              <SidebarNav />
-            </aside>
+        <Providers>
+          <Header />
+          <div className="flex-1 grid md:grid-cols-[250px_1fr] md:gap-12">
+            <div className="hidden md:block">
+              <aside>
+                <SidebarNav />
+              </aside>
+            </div>
+            {children}
           </div>
-          {children}
-        </div>
+        </Providers>
       </body>
     </html>
   )

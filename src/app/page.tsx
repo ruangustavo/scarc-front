@@ -1,46 +1,33 @@
-import AirConditionerCard from '@/components/ar-conditioner-card'
+'use client'
 
-const airConditioners = [
-  {
-    id: 1,
-    name: 'Ar-condicionado 1',
-    isToggled: true,
-    location: 'Sala A, bloco anexo',
-  },
-  {
-    id: 2,
-    name: 'Ar-condicionado 3',
-    isToggled: false,
-    location: 'Sala B, bloco principal',
-  },
-  {
-    id: 3,
-    name: 'Ar-condicionado 4',
-    isToggled: true,
-    location: 'Sala C, bloco principal',
-  },
-  {
-    id: 4,
-    name: 'Ar-condicionado 5',
-    isToggled: false,
-    location: 'Sala D, bloco principal',
-  },
-  {
-    id: 5,
-    name: 'Ar-condicionado 6',
-    isToggled: true,
-    location: 'Sala E, bloco principal',
-  },
-]
+import AirConditionerCard from '@/components/ar-conditioner-card'
+import { useRooms } from './hooks/use-rooms'
 
 export default function Home() {
+  const { rooms } = useRooms()
+
   return (
     <main>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {airConditioners.map((airConditioner) => (
-          <AirConditionerCard key={airConditioner.id} {...airConditioner} />
-        ))}
-      </div>
+      {rooms?.map((room) => (
+        <div
+          className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-2"
+          key={room.id}
+        >
+          {room.air_conditioners.map((airConditioner) => (
+            <div key={airConditioner.id}>
+              <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight mb-1">
+                {room.name}
+              </h2>
+              <AirConditionerCard
+                key={airConditioner.id}
+                isActive={airConditioner.is_active}
+                location={room.name}
+                name={airConditioner.model ?? airConditioner.brand}
+              />
+            </div>
+          ))}
+        </div>
+      ))}
     </main>
   )
 }

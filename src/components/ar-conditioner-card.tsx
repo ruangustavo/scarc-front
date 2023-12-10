@@ -3,13 +3,13 @@ import { PowerIcon } from 'lucide-react'
 
 interface AirConditionerProps {
   name: string
-  isToggled: boolean
+  isActive: boolean
   location: string
 }
 
 export default function AirConditionerCard({
   name,
-  isToggled,
+  isActive,
   location,
 }: AirConditionerProps) {
   return (
@@ -20,7 +20,7 @@ export default function AirConditionerCard({
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">
-          {isToggled ? 'Ligado' : 'Desligado'}
+          {isActive ? 'Ligado' : 'Desligado'}
         </div>
         <p className="text-xs text-muted-foreground">{location}</p>
       </CardContent>
