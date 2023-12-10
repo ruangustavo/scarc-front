@@ -1,49 +1,48 @@
-'use client'
-
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-
 import { cn } from '@/lib/utils'
-import { buttonVariants } from './ui/button'
 
-interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
-  items: {
-    href: string
-    title: string
-    icon?: React.ReactNode
-  }[]
-}
+import { Calendar, LayoutGrid, PlusSquare } from 'lucide-react'
+import { Button } from './ui/button'
 
-export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
-  const pathname = usePathname()
+type SidebarProps = React.HTMLAttributes<HTMLDivElement>
 
+export function SidebarNav({ className }: SidebarProps) {
   return (
-    <nav
-      className={cn(
-        'flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1',
-        className,
-      )}
-      {...props}
-    >
-      {items.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className={cn(
-            buttonVariants({ variant: 'ghost' }),
-            pathname === item.href ? 'bg-muted' : 'bg-transparent',
-            'justify-start',
-            'hover:bg-muted',
-            'flex',
-            'gap-2',
-            'items-center',
-            'flex-1',
-          )}
-        >
-          {item.icon}
-          {item.title}
-        </Link>
-      ))}
-    </nav>
+    <div className={cn('pb-12', className)}>
+      <div className="space-y-4 py-4">
+        <div className="px-3 py-2">
+          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+            Geral
+          </h2>
+          <div className="space-y-1">
+            <Button variant="secondary" className="w-full justify-start">
+              <LayoutGrid className="mr-2 h-4 w-4" />
+              Início
+            </Button>
+          </div>
+        </div>
+        <div className="px-3 py-2">
+          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+            Ar-condicionados
+          </h2>
+          <div className="space-y-1">
+            <Button variant="ghost" className="w-full justify-start">
+              <PlusSquare className="mr-2 h-4 w-4" />
+              Adicionar ar-condicionado
+            </Button>
+          </div>
+        </div>
+        <div className="px-3 py-2">
+          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+            Agendamentos
+          </h2>
+          <div className="space-y-1">
+            <Button variant="ghost" className="w-full justify-start">
+              <Calendar className="mr-2 h-4 w-4" />
+              Fazer um agendamento
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
