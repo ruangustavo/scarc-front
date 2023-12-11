@@ -1,6 +1,6 @@
 'use client'
 
-import AirConditionerCard from '@/components/ar-conditioner-card'
+import AirConditionerCard from '@/components/air-conditioner-card'
 import { useRooms } from './hooks/use-rooms'
 
 export default function Home() {
@@ -23,6 +23,7 @@ export default function Home() {
             {room.air_conditioners.map((airConditioner) => (
               <AirConditionerCard
                 key={airConditioner.id}
+                id={airConditioner.id}
                 isActive={airConditioner.is_active}
                 location={room.name}
                 name={airConditioner.model ?? airConditioner.brand}
