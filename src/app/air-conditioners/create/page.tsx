@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/select'
 import { api } from '@/lib/api'
 import { Icons } from '@/components/icons'
+import { RoomSelector } from '@/components/room-selector'
 
 const formSchema = z.object({
   brand: z.string().min(2, {
@@ -40,7 +41,6 @@ const formSchema = z.object({
 })
 
 export default function AddAirConditionerPage() {
-  const { rooms } = useRooms()
   const [isSaving, setIsSaving] = React.useState<boolean>(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -120,11 +120,7 @@ export default function AddAirConditionerPage() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {rooms.map((room) => (
-                    <SelectItem key={room.id} value={String(room.id)}>
-                      {room.name}
-                    </SelectItem>
-                  ))}
+                  <RoomSelector />
                 </SelectContent>
               </Select>
               <FormDescription>

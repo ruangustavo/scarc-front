@@ -44,7 +44,7 @@ const sideBarItems = [
     items: [
       {
         title: 'Fazer um agendamento',
-        href: '/schedules/create',
+        href: '/appointments/create',
         icon: Calendar,
       },
     ],
