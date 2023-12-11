@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { Calendar, LayoutGrid, PlusSquare } from 'lucide-react'
+import { Calendar, LayoutGrid, PlusSquare, Home } from 'lucide-react'
 import { buttonVariants } from './ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -16,6 +16,16 @@ const sideBarItems = [
         title: 'Início',
         href: '/',
         icon: LayoutGrid,
+      },
+    ],
+  },
+  {
+    title: 'Salas',
+    items: [
+      {
+        title: 'Criar sala',
+        href: '/rooms/create',
+        icon: Home,
       },
     ],
   },
