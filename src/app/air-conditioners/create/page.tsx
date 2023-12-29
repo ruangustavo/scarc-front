@@ -4,6 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
+import { Icons } from '@/components/icons'
+import { RoomSelector } from '@/components/room-selector'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -15,7 +17,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import React from 'react'
 import {
   Select,
   SelectContent,
@@ -24,17 +25,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { api } from '@/lib/api'
-import { Icons } from '@/components/icons'
-import { RoomSelector } from '@/components/room-selector'
+import React from 'react'
 
-const supportedProtocols = [
-  'default',
-  'teco',
-  'samsung',
-  'midea',
-  'lg',
-  'samsung',
-] as const
+const supportedProtocols = ['teco', 'samsung', 'midea', 'lg'] as const
 
 const formSchema = z.object({
   brand: z.string().min(2, {
@@ -57,7 +50,7 @@ export default function AddAirConditionerPage() {
     defaultValues: {
       brand: '',
       model: '',
-      protocol: 'default',
+      protocol: 'teco',
       roomId: 0,
     },
   })
