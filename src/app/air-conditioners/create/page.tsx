@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import React from 'react'
-import { useRooms } from '@/app/hooks/use-rooms'
 import {
   Select,
   SelectContent,
@@ -28,6 +27,15 @@ import { api } from '@/lib/api'
 import { Icons } from '@/components/icons'
 import { RoomSelector } from '@/components/room-selector'
 
+const supportedProtocols = [
+  'default',
+  'teco',
+  'samsung',
+  'midea',
+  'lg',
+  'samsung',
+] as const
+
 const formSchema = z.object({
   brand: z.string().min(2, {
     message: 'A marca deve ter pelo menos 2 caracteres',
@@ -35,6 +43,7 @@ const formSchema = z.object({
   model: z.string().min(2, {
     message: 'O modelo deve ter pelo menos 2 caracteres',
   }),
+  protocol: z.enum(supportedProtocols),
   roomId: z.coerce.number().min(1, {
     message: 'Selecione uma sala',
   }),
@@ -48,6 +57,7 @@ export default function AddAirConditionerPage() {
     defaultValues: {
       brand: '',
       model: '',
+      protocol: 'default',
       roomId: 0,
     },
   })
@@ -57,10 +67,11 @@ export default function AddAirConditionerPage() {
   ) {
     setIsSaving(true)
 
-    const { brand, model, roomId } = values
+    const { brand, model, protocol, roomId } = values
     await api.post(`rooms/${roomId}/air-conditioners`, {
       brand,
       model,
+      protocol,
     })
 
     setIsSaving(false)
@@ -125,6 +136,36 @@ export default function AddAirConditionerPage() {
               </Select>
               <FormDescription>
                 Clique para selecionar a sala onde o ar-condicionado está
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="protocol"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Protocolo</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={String(field.value)}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione um protocolo" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {supportedProtocols.map((protocol, index) => (
+                    <SelectItem key={index} value={protocol}>
+                      {protocol}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                Selecione o protocolo do ar-condicionado
               </FormDescription>
               <FormMessage />
             </FormItem>
